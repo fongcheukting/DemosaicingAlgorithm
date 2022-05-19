@@ -128,7 +128,8 @@ RGBDATA** readBmpDataToArr(FILE* fp) {
 void print_image(RGBDATA ** data){
   for (int i = 0; i < IMAGE_HEIGHT; i++) {
 		for (int j = 0; j < IMAGE_WIDTH; j++) {
-			printf("Pixel coordinate at (%d, %d): [%d,%d,%d] \n ", i,j,data[i][j].red, data[i][j].green, data[i][j].blue);
+			printf("Pixel coordinate at (%d, %d): [%d,%d,%d] \n ", 
+			       i,j,data[i][j].red, data[i][j].green, data[i][j].blue);
 		}
 		printf("\n");
 	}
@@ -137,7 +138,8 @@ void compare_image(RGBDATA ** img1, RGBDATA ** img2){
   for (int i = 0; i < IMAGE_HEIGHT; i++) {
 		for (int j = 0; j < IMAGE_WIDTH; j++) {
 			printf("Pixel coordinate at (%d, %d): [%d,%d,%d] \n ",
-			i,j,img1[i][j].red - img2[i][j].red, img1[i][j].green - img2[i][j].green, img1[i][j].blue - img2[i][j].blue);
+			i,j,img1[i][j].red - img2[i][j].red, img1[i][j].green - 
+			       img2[i][j].green, img1[i][j].blue - img2[i][j].blue);
 		}
 		printf("\n");
 	}
@@ -147,7 +149,8 @@ RGBDATA** gt_to_cfa(RGBDATA ** gt_image, int padding){
 	RGBDATA ** cfa_image = createMatrix(IMAGE_WIDTH + padding * 2, IMAGE_HEIGHT+ padding * 2);
 	for (int i = 0; i < IMAGE_HEIGHT + padding * 2; i++) {
 		for (int j = 0; j < IMAGE_WIDTH + padding * 2; j++) {
-			if ((i >= padding && i < IMAGE_HEIGHT - padding) && (j >= padding && j < IMAGE_WIDTH - padding)){
+			if ((i >= padding && i < IMAGE_HEIGHT - padding) 
+			    && (j >= padding && j < IMAGE_WIDTH - padding)){
 				if (i % 2 == 0 && j % 2 == 0){
 					// red location
 					cfa_image[i][j].red = gt_image[i-padding][j-padding].red;
@@ -222,7 +225,8 @@ RGBDATA ** demosaicing_algorithm(RGBDATA ** cfa_image, int padding){
 				full_color_image[i-padding][j-padding].green = cfa_image[i][j].green;
 				// interpolate R
 				int R_b = (cfa_image[i][j+1].red + cfa_image[i][j-1].red) / 2;
-				int delta_G_1 = cfa_image[i][j].green - (cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
+				int delta_G_1 = cfa_image[i][j].green - 
+					(cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
 					cfa_image[i+1][j-1].green + cfa_image[i-1][j+1].green +
 					cfa_image[i][j+2].green + cfa_image[i][j-2].green) / 6 +
 					(cfa_image[i+2][j].green + cfa_image[i-2][j].green) / 12;
@@ -231,7 +235,8 @@ RGBDATA ** demosaicing_algorithm(RGBDATA ** cfa_image, int padding){
 
 				// interpolate B
 				int B_b = (cfa_image[i+1][j].blue + cfa_image[i-1][j].blue) / 2;
-				int delta_G_2 = cfa_image[i][j].green - (cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
+				int delta_G_2 = cfa_image[i][j].green - 
+					(cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
 					cfa_image[i+1][j-1].green + cfa_image[i-1][j+1].green +
 					cfa_image[i+2][j].green + cfa_image[i-2][j].green) / 6 +
 					(cfa_image[i][j+2].green + cfa_image[i][j-2].green) / 12;
@@ -243,7 +248,8 @@ RGBDATA ** demosaicing_algorithm(RGBDATA ** cfa_image, int padding){
 				full_color_image[i-padding][j-padding].green = cfa_image[i][j].green;
 				// interpolate R
 				int R_b = (cfa_image[i+1][j].red + cfa_image[i-1][j].red) / 2;
-				int delta_G_2 = cfa_image[i][j].green - (cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
+				int delta_G_2 = cfa_image[i][j].green - 
+					(cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
 					cfa_image[i+1][j-1].green + cfa_image[i-1][j+1].green +
 					cfa_image[i+2][j].green + cfa_image[i-2][j].green) / 6 +
 					(cfa_image[i][j+2].green + cfa_image[i][j-2].green) / 12;
@@ -251,7 +257,8 @@ RGBDATA ** demosaicing_algorithm(RGBDATA ** cfa_image, int padding){
 
 				// interpolate B
 				int B_b = (cfa_image[i][j+1].blue + cfa_image[i][j-1].blue) / 2;
-				int delta_G_1 = cfa_image[i][j].green - (cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
+				int delta_G_1 = cfa_image[i][j].green - 
+					(cfa_image[i+1][j+1].green + cfa_image[i-1][j-1].green +
 					cfa_image[i+1][j-1].green + cfa_image[i-1][j+1].green +
 					cfa_image[i][j+2].green + cfa_image[i][j-2].green) / 6 +
 					(cfa_image[i+2][j].green + cfa_image[i-2][j].green) / 12;
